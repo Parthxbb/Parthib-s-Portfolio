@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parthib — CSE Student &amp; Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #ECEEEC;
+    --paper-raised: #E2E5E1;
+    --ink: #16191C;
+    --ink-soft: #4B5158;
+    --teal: #235F5A;
+    --teal-dim: #DDE7E5;
+    --mustard: #C98A2C;
+    --line: #C9CCC7;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'IBM Plex Sans', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: var(--teal); text-decoration: none; border-bottom: 1px solid transparent; }
+  a:hover, a:focus-visible { border-bottom-color: var(--teal); }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; }
+
+  .wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ---------- NAV ---------- */
+  nav {
+    position: sticky;
+    top: 0;
+    background: rgba(236, 238, 236, 0.92);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--line);
+    z-index: 10;
+  }
+  nav .wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+  }
+  .nav-mark {
+    font-family: var(--mono);
+    font-weight: 600;
+    font-size: 15px;
+  }
+  .nav-links {
+    display: flex;
+    gap: 24px;
+    font-size: 14px;
+    font-family: var(--mono);
+  }
+  .nav-links a { color: var(--ink-soft); border-bottom: none; }
+  .nav-links a:hover { color: var(--teal); }
+
+  /* ---------- HERO ---------- */
+  header.hero {
+    padding: 88px 0 64px;
+    border-bottom: 1px solid var(--line);
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+  h1 {
+    font-family: var(--mono);
+    font-size: 42px;
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+  }
+  .hero-sub {
+    margin-top: 18px;
+    font-size: 18px;
+    color: var(--ink-soft);
+    max-width: 46ch;
+  }
+  .hero-tags {
+    margin-top: 24px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .tag {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    padding: 5px 10px;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    color: var(--ink-soft);
+    background: var(--paper-raised);
+  }
+
+  .terminal {
+    background: var(--ink);
+    color: #D7DBD8;
+    border-radius: 6px;
+    padding: 18px 20px;
+    font-family: var(--mono);
+    font-size: 13.5px;
+    line-height: 1.8;
+    min-height: 150px;
+  }
+  .terminal .dot-row { margin-bottom: 12px; }
+  .terminal .dot {
+    display: inline-block;
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: #4B5158;
+    margin-right: 6px;
+  }
+  .terminal .prompt { color: var(--mustard); }
+  .terminal #typed-line::after {
+    content: '▌';
+    animation: blink 1s step-end infinite;
+    color: #D7DBD8;
+  }
+  .terminal #typed-line.done::after { display: none; }
+  @keyframes blink { 50% { opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) {
+    .terminal #typed-line::after { display: none; }
+  }
+
+  /* ---------- SECTIONS ---------- */
+  section { padding: 56px 0; border-bottom: 1px solid var(--line); }
+  section:last-of-type { border-bottom: none; }
+
+  h2 {
+    font-family: var(--mono);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--teal);
+    margin-bottom: 28px;
+  }
+
+  .about-text { max-width: 60ch; font-size: 17px; }
+  .about-text p + p { margin-top: 14px; }
+
+  /* ---------- CHANGELOG (skills) ---------- */
+  .changelog { display: flex; flex-direction: column; gap: 0; }
+  .entry {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 20px;
+    padding: 20px 0;
+    border-top: 1px solid var(--line);
+  }
+  .entry:first-child { border-top: none; }
+  .entry-version {
+    font-family: var(--mono);
+    font-size: 14px;
+    font-weight: 600;
+    padding-top: 2px;
+  }
+  .entry.shipped .entry-version { color: var(--teal); }
+  .entry.progress .entry-version { color: var(--mustard); }
+  .entry.planned .entry-version { color: var(--ink-soft); }
+
+  .entry-status {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.02em;
+    display: block;
+    margin-bottom: 6px;
+  }
+  .entry.shipped .entry-status { color: var(--teal); }
+  .entry.progress .entry-status { color: var(--mustard); }
+  .entry.planned .entry-status { color: var(--ink-soft); }
+
+  .entry-title { font-weight: 600; margin-bottom: 4px; }
+  .entry-desc { color: var(--ink-soft); font-size: 15.5px; }
+
+  .also-box {
+    margin-top: 32px;
+    padding: 18px 20px;
+    background: var(--teal-dim);
+    border-radius: 6px;
+    border-left: 3px solid var(--teal);
+  }
+  .also-box .entry-title { color: var(--ink); }
+  .also-box .entry-desc { color: var(--ink-soft); }
+
+  /* ---------- PROJECTS ---------- */
+  .projects { display: flex; flex-direction: column; gap: 16px; }
+  .project-card {
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 22px;
+    background: var(--paper-raised);
+  }
+  .project-card h3 {
+    font-family: var(--mono);
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+  .project-card p {
+    color: var(--ink-soft);
+    font-size: 15px;
+    margin-bottom: 12px;
+  }
+  .project-links { display: flex; gap: 16px; font-family: var(--mono); font-size: 13.5px; }
+  .project-card.placeholder {
+    border-style: dashed;
+    color: var(--ink-soft);
+  }
+  .project-card.placeholder .entry-status { color: var(--mustard); font-family: var(--mono); font-size: 11px; display:block; margin-bottom:8px; }
+
+  /* ---------- CONTACT ---------- */
+  .contact-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  .contact-links a {
+    font-family: var(--mono);
+    font-size: 14.5px;
+    padding: 10px 16px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    color: var(--ink);
+  }
+  .contact-links a:hover { border-color: var(--teal); color: var(--teal); }
+
+  footer {
+    padding: 32px 0 48px;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--ink-soft);
+  }
+
+  @media (max-width: 640px) {
+    h1 { font-size: 32px; }
+    .hero-grid { grid-template-columns: 1fr; }
+    .entry { grid-template-columns: 1fr; gap: 6px; }
+    .nav-links { gap: 14px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <span class="nav-mark">parthib.dev</span>
+    <div class="nav-links">
+      <a href="#about">about</a>
+      <a href="#skills">skills</a>
+      <a href="#projects">projects</a>
+      <a href="#contact">contact</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <h1>Parthib</h1>
+      <p class="hero-sub">2nd-year CSE student at Siliguri Institute of Technology. Building backend fundamentals in Python and SQL, now shipping frontend skills for hackathons — with competitive programming and a video-editing habit running alongside.</p>
+      <div class="hero-tags">
+        <span class="tag">Python</span>
+        <span class="tag">MySQL</span>
+        <span class="tag">PostgreSQL</span>
+        <span class="tag">HTML/CSS/JS</span>
+        <span class="tag">Video Editing</span>
+      </div>
+    </div>
+    <div class="terminal">
+      <div class="dot-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+      <div><span class="prompt">parthib@sit</span>:~$ <span id="typed-line"></span></div>
+    </div>
+  </div>
+</header>
+
+<section id="about">
+  <div class="wrap">
+    <h2>ABOUT</h2>
+    <div class="about-text">
+      <p>I'm a second-year Computer Science student at Siliguri Institute of Technology, currently splitting my time between two things: strengthening backend fundamentals with Python and relational databases, and picking up frontend development ahead of hackathon season.</p>
+      <p>Outside of coursework, I edit video — a skill that's taught me a fair amount about pacing, structure, and getting details right, which carries over surprisingly well into how I approach building software.</p>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <h2>CHANGELOG</h2>
+    <div class="changelog">
+      <div class="entry shipped">
+        <div class="entry-version">v1.0</div>
+        <div>
+          <span class="entry-status">SHIPPED</span>
+          <div class="entry-title">Python &amp; Relational Databases</div>
+          <div class="entry-desc">Comfortable writing Python and integrating it with MySQL and PostgreSQL — queries, schema design, and connecting applications to a working database.</div>
+        </div>
+      </div>
+      <div class="entry progress">
+        <div class="entry-version">v1.1</div>
+        <div>
+          <span class="entry-status">IN PROGRESS</span>
+          <div class="entry-title">HTML, CSS &amp; JavaScript</div>
+          <div class="entry-desc">Learning frontend fundamentals with hackathons as the target — building real, deployed projects rather than just following tutorials.</div>
+        </div>
+      </div>
+      <div class="entry planned">
+        <div class="entry-version">v2.0</div>
+        <div>
+          <span class="entry-status">PLANNED</span>
+          <div class="entry-title">C++ &amp; Competitive Programming</div>
+          <div class="entry-desc">Next up: C++ for competitive programming — sharpening data structures and algorithms through regular contest practice.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="also-box">
+      <div class="entry-title">Also — Video Editing</div>
+      <div class="entry-desc">Working knowledge of video editing from hands-on project experience. A creative skill that sits outside the changelog, but shows up in how I think about clarity and craft.</div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap">
+    <h2>PROJECTS</h2>
+    <div class="projects">
+      <div class="project-card placeholder">
+        <span class="entry-status">ADD PROJECT 1 HERE</span>
+        <h3>Personal Portfolio (this site)</h3>
+        <p>Replace this with a real description once you've customized it — e.g. "Responsive personal site built with HTML, CSS, and JavaScript, deployed on Vercel."</p>
+        <div class="project-links">
+          <a href="#">GitHub →</a>
+          <a href="#">Live demo →</a>
+        </div>
+      </div>
+      <div class="project-card placeholder">
+        <span class="entry-status">ADD PROJECT 2 HERE</span>
+        <h3>Movie Search App</h3>
+        <p>Swap in your real description after building it — e.g. "Movie search app using the OMDb API with loading states and error handling."</p>
+        <div class="project-links">
+          <a href="#">GitHub →</a>
+          <a href="#">Live demo →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <h2>CONTACT</h2>
+    <div class="contact-links">
+      <a href="https://github.com/yourusername" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://linkedin.com/in/yourusername" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="mailto:your.email@example.com">Email</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">Parthib · Siliguri Institute of Technology</div>
+</footer>
+
+<script>
+  const line = "whoami --stack";
+  const el = document.getElementById('typed-line');
+  let i = 0;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function type() {
+    if (i <= line.length) {
+      el.textContent = line.slice(0, i);
+      i++;
+      setTimeout(type, 55);
+    } else {
+      el.classList.add('done');
+    }
+  }
+
+  if (reduceMotion) {
+    el.textContent = line;
+    el.classList.add('done');
+  } else {
+    type();
+  }
+</script>
+
+</body>
+</html>
